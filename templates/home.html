@@ -3,21 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>OpenView Data Visualization</title>
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="javascript"></script>
-    <script src="js/data.js" type="javascript"></script>
-    <script src="js/home.js" type="javascript"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <script src="/static/js/data.js"></script>
 </head>
 <body>
 <div id="welcome">
     <h1> Welcome! </h1>
     <h4> Explore Company Data Below: </h4>
 </div>
-<div id="data">
-    <div id="data-display"></div>
-    <div id="data-navbar"></div>
+<div id="data" class="outer">
+    <div id="data-notes" class="inner"></div>
+    <div id="data-display" class="inner"></div>
+</div>
+<div id="buttons" class="outer">
+    <div id="data-navbar" class="btn-group">
+        <label for="categories">Select a category:</label>
+        <select class="form-control" id="categories">
+            <option id="tier">Tier</option>
+            <option id="details.total_money_in_usd">Revenue Generated</option>
+            <option id="status">Status</option>
+            <option id="sf_account_owner">Account Owner</option>
+        </select>
+        <input name="daterange" type="text" class="btn btn-default" value="01/01/1980 - 10/16/2016" size="40">
+        <button type="button" class="btn btn-success" id="generate">Generate Data!</button>
+    </div>
 </div>
 </body>
 </html>

@@ -5,8 +5,8 @@ import random
 data_frame = read_csv('static/BDeer_VMWorld_2017.csv')
 
 def get_data(type, start, end):
-    start_date = datetime.datetime.strptime(start, '%Y-%m-%d')
-    end_date = datetime.datetime.strptime(end, '%Y-%m-%d')
+    start_date = datetime.datetime.strptime(start, '%m/%d/%Y')
+    end_date = datetime.datetime.strptime(end, '%m/%d/%Y')
     def in_range(date):
         try:
             return start_date <= datetime.datetime.strptime(date, '%Y-%m-%d') <= end_date
@@ -32,11 +32,9 @@ def get_data(type, start, end):
             except:
                 return 0
     ret = {
-        type: {
-            'data': None,
-            'layout': None,
-            'note': None
-        }
+        'data': None,
+        'layout': None,
+        'note': None
     }
     data_set = list(set(data_frame[type]))
     if type == 'details.total_money_in_usd':
@@ -45,32 +43,43 @@ def get_data(type, start, end):
         min_money = 61651651684654654
         for i, money in enumerate(data_frame[type]):
             if money != 'Undisclosed' and in_range(data_frame['founded_date'][i]) and get_date_val(data_frame['founded_date'][i]):
-                    date_val = get_date_val(data_frame['founded_date'][i])
-                    money_val = float(money[1:len(money) - 1])
-                    if money_val > max_money:
-                        max_money = money_val
-                    elif money_val < min_money:
-                        min_money = money_val
-                    name = data_frame['name'][i]
-                    trace = {
-                        'x': [date_val],
-                        'y': [money_val],
-                        'mode': 'markers',
-                        'type': 'scatter',
-                        'name': name,
-                        'marker': {
-                            'size': 8
-                        }
+                date_val = get_date_val(data_frame['founded_date'][i])
+                money_val = float(money[1:len(money) - 1])
+                if money_val > max_money:
+                    max_money = money_val
+                elif money_val < min_money:
+                    min_money = money_val
+                name = data_frame['name'][i]
+                trace = {
+                    'x': [date_val],
+                    'y': [money_val],
+                    'mode': 'markers',
+                    'type': 'scatter',
+                    'name': name,
+                    'marker': {
+                        'size': 8
                     }
-                    data.append(trace)
+                }
+                data.append(trace)
         layout = {
+            'title': 'Revenue Generated vs. Founding Date',
+            'showlegend': False,
             'xaxis': {
-                range: [.8*get_date_val(start_date), 1.2*get_date_val(end_date)]
+                'title': 'Founded Date (Year)',
+                'titlefont': {
+                    'family': 'Courier New, monospace',
+                    'size': 18,
+                    'color': '#7f7f7f'
+                }
             },
             'yaxis': {
-                range: [.5*min_money, 1.25*max_money]
-            },
-            'title': 'Data Labels Hover'
+                'title': 'Revenue raised (millions in USD)',
+                'titlefont': {
+                    'family': 'Courier New, monospace',
+                    'size': 18,
+                    'color': '#7f7f7f'
+                }
+            }
         }
         note = '* Does not include Undisclosed Funding Data.'
     elif type == 'tier':
@@ -150,19 +159,17 @@ def get_data(type, start, end):
             for i, date in enumerate(list(data_frame['sf_last_activity_date'])):
                 if in_range(date) and account_owner_col[i] == name:
                     activity_x[data_set.index(name)] += 1
-                elif date == 'No activity':
+                elif date == 'No activity' and account_owner_col[i] == name:
                     no_activity_x[data_set.index(name)] += 1
         data = [activity, no_activity]
         layout = {
-            'title': 'Account Owner vs. Last Activity Date from {0} to {1}'.format(start_date, end_date),
-            'barmode': 'stack'
+            'title': 'Account Owner vs. Last Activity Date from {0} to {1}'.format(start_date.strftime('%Y-%m-%d'), end_date.strftime('%Y-%m-%d')),
+            'barmode': 'stack',
+            'margin': {
+                'l':200
+            }
         }
         note = ''
-
-
-
-
-    ret[type]['data'], ret[type]['layout'], ret[type]['note'] = data, layout, note
-
-get_data('details.total_money_in_usd', '1999-05-09', '2016-12-23')
+    ret['data'], ret['layout'], ret['note'] = data, layout, note
+    return ret
 

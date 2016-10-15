@@ -22,6 +22,17 @@ api.add_resource(Resource, '/api/<type>/<start_time>/<end_time>')
 def display():
     return render_template('home.html')
 
+@app.route('/api/<type>/', methods=['GET'])
+def data_retrieve(type):
+    if request.method == 'GET':
+        start_time = request.args.get('start_date')
+        end_time = request.args.get('end_date')
+        ret = get_data(type, start_time, end_time)
+        # print ret
+        return jsonify(ret)
+
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
