@@ -6,3 +6,7 @@
 .inner{
     display: inline-block;
 }
+
+.inner-graph{
+    display: block;
+}

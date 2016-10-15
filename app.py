@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify, render_template
 from flask_restful import reqparse, abort, Api, Resource
-from data import get_data
+from data import get_category_data, data_frame, pass_data_frame, get_company_data
 
 app = Flask(__name__)
 api = Api(app)
@@ -20,14 +20,22 @@ api.add_resource(Resource, '/api/<type>/<start_time>/<end_time>')
 
 @app.route('/')
 def display():
-    return render_template('home.html')
+    companies = sorted(set([(data_frame['id'][i], data_frame['name'][i]) for i in range(len(data_frame['id']))] + [(pass_data_frame['id'][i], pass_data_frame['name'][i]) for i in range(len(pass_data_frame['id']))]), key=lambda point: point[1])
+    return render_template('home.html', companies=companies)
 
-@app.route('/api/<type>/', methods=['GET'])
-def data_retrieve(type):
+@app.route('/api/category/<type>/', methods=['GET'])
+def category_data_retrieve(type):
     if request.method == 'GET':
         start_time = request.args.get('start_date')
         end_time = request.args.get('end_date')
-        ret = get_data(type, start_time, end_time)
+        ret = get_category_data(type, start_time, end_time)
+        # print ret
+        return jsonify(ret)
+
+@app.route('/api/company/<id>/', methods=['GET'])
+def company_data_retrieve(id):
+    if request.method == 'GET':
+        ret = get_company_data(id)
         # print ret
         return jsonify(ret)
 
