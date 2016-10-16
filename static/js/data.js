@@ -16,6 +16,7 @@ $(function() {
                     $("#data-website").attr('href', '').empty().addClass('hidden');
                     $("#data-sf").attr('href', '').empty().addClass('hidden');
                     $("#data-description").empty().addClass('hidden');
+                    $("#data-display").removeClass('js-plotly-plot').empty();
                     Plotly.newPlot(document.getElementById('data-display'), data.data, data.layout);
                 }
             });
@@ -29,6 +30,7 @@ $(function() {
                     $("#data-website").attr('href', data.info.website).text('Website').removeClass('hidden');
                     $("#data-sf").attr('href', data.info.salesforce).text('Salesforce').removeClass('hidden');
                     $("#data-description").text(data.info.description).removeClass('hidden');
+                    $("#data-display").removeClass('js-plotly-plot').empty();
                     Plotly.newPlot(document.getElementById('data-display'), data.data, data.layout);
                 }
             });

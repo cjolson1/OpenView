@@ -36,8 +36,11 @@ def category_data_retrieve(type):
 def company_data_retrieve(id):
     if request.method == 'GET':
         ret = get_company_data(id)
-        # print ret
-        return jsonify(ret)
+        try:
+            return jsonify(ret)
+        except:
+            return jsonify({'note': 'There was a problem retrieving that data.'})
+
 
 
 
