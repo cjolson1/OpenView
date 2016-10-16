@@ -342,9 +342,28 @@ def get_company_data(id):
         'x': keys,
         'y': y,
         'name': file['name'][row],
-        'type': 'bar'
+        'type': 'bar',
     }
     data = [trace, average_trace]
-    layout = {'barmode': 'group'}
-    return {'data': data, 'layout': layout, 'note': 'Undisclosed amounts show up as None'}
+    layout = {
+        'barmode': 'group',
+        'height': 800,
+        'width': '100%',
+        'margin': {
+            'b': 200
+        }
+    }
+    description = file['description'][row]
+    salesforce = file['salesforce_link'][row]
+    website = file['website'][row]
+    return {
+        'data': data,
+        'layout': layout,
+        'note': '*Undisclosed amounts show up as 0.',
+        'info': {
+            'description': description,
+            'salesforce': salesforce,
+            'website': website
+        }
+    }
 

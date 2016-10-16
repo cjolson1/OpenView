@@ -23,33 +23,50 @@
         <h4> Explore Company Data Below: </h4>
     </div>
 </div>
+
 <div id="data" class="outer">
     <div id="data-notes" class="inner-graph"></div>
     <div id="data-display" class="inner"></div>
 </div>
-<div id="buttons" class="outer">
-    <div id="data-navbar" class="btn-group">
-        <div class="btn-group" data-toggle="buttons">
-      <label class="btn btn-success active" id="category-label">
-        <input type="radio" name="options" id="category" autocomplete="off" checked> Search By Category
-      </label>
-      <label class="btn btn-success" id="company-label">
-        <input type="radio" name="options" id="company" autocomplete="off"> Search by Company
-      </label>
+<br/>
+<div class="outer" style="padding-top: 10px; padding-bottom: 10px;">
+    <div class="inner">
+        <a id="data-website"></a>
     </div>
-    <select class="form-control" id="categories">
-        <option id="tier">Tier</option>
-        <option id="details.total_money_in_usd">Revenue Generated</option>
-        <option id="status">Status</option>
-        <option id="sf_account_owner">Account Owner</option>
-    </select>
-    <select class="form-control hidden" id="companies">
-        {% for company in companies %}
-            <option id="{{ company[0] }}">{{ company[1] }}</option>
-        {% endfor %}
-    </select>
-    <input name="daterange" type="text" class="btn btn-default" value="01/01/1980 - 10/16/2016" size="40">
-    <button type="button" class="btn btn-primary" id="generate">Generate Data!</button>
+    <div class="inner">
+        <a id="data-sf"></a>
+    </div>
+    <div id="data-description" class="inner-graph"></div>
+</div>
+<br/>
+<div class="outer">
+     <div class="btn-group inner-graph" data-toggle="buttons">
+          <label class="btn btn-success active" id="category-label">
+            <input type="radio" name="options" id="category" autocomplete="off" checked> Search By Category
+          </label>
+          <label class="btn btn-success" id="company-label">
+            <input type="radio" name="options" id="company" autocomplete="off"> Search by Company
+          </label>
+          <label class="btn btn-danger hidden" id="clear-graph-label">
+            <input type="radio" name="options" id="clear-graph" autocomplete="off"> Clear Graph
+          </label>
+    </div>
+</div>
+<div id="buttons" class="outer">
+    <div id="data-navbar" class="btn-group inner">
+        <select class="form-control" id="categories">
+            <option id="tier">Tier</option>
+            <option id="details.total_money_in_usd">Revenue Generated</option>
+            <option id="status">Status</option>
+            <option id="sf_account_owner">Account Owner</option>
+        </select>
+        <select class="form-control hidden" id="companies">
+            {% for company in companies %}
+                <option id="{{ company[0] }}">{{ company[1] }}</option>
+            {% endfor %}
+        </select>
+        <input name="daterange" type="text" class="btn btn-default" value="01/01/1980 - 10/16/2016" size="40">
+        <button type="button" class="btn btn-primary pull-right" id="generate">Generate Data!</button>
     </div>
 </div>
 </body>
